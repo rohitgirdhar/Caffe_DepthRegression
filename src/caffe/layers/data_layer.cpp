@@ -175,7 +175,7 @@ void DataLayer<Dtype>::InternalThreadEntry() {
     this->data_transformer_.Transform(item_id, datum, this->mean_, top_data);
 
     if (this->output_labels_) {
-      top_label[item_id] = datum.label();
+      top_label[item_id] = datum.label().Get(0);
     }
 
     // go to the next iter

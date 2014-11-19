@@ -116,7 +116,7 @@ void ImageDataLayer<Dtype>::InternalThreadEntry() {
     // Apply transformations (mirror, crop...) to the data
     this->data_transformer_.Transform(item_id, datum, this->mean_, top_data);
 
-    top_label[item_id] = datum.label();
+    top_label[item_id] = datum.label().Get(0);
     // go to the next iter
     lines_id_++;
     if (lines_id_ >= lines_size) {
