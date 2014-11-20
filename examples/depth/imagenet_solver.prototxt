@@ -1,0 +1,15 @@
+train_net: "/home/rgirdhar/work/01_DepthRegression/caffe/examples/depth/imagenet_depth_train.prototxt"
+base_lr: 0.00001
+lr_policy: "step"
+gamma: 0.1
+stepsize: 100000
+display: 10
+max_iter: 450000
+momentum: 0.9
+weight_decay: 0.0005
+#snapshot: 1000
+snapshot: 1000
+snapshot_prefix: "/home/rgirdhar/work/01_DepthRegression/caffe/examples/depth/depth_"
+#solver_mode: 0
+solver_mode: GPU
+device_id: 1
