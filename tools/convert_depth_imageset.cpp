@@ -26,7 +26,8 @@ using std::string;
 
 using namespace std;
 
-
+#define HT 228
+#define WD 304
 #define RESIZE_HEIGHT 55
 #define RESIZE_WIDTH 74
 #define LABEL_LEN (55 * 74 * 1)
@@ -41,8 +42,8 @@ struct Seg_Anno {
 bool MyReadImageToDatum(const string& fpath, Datum* datum)
 {
 	datum->set_channels(3);
-	datum->set_height(304);
-	datum->set_width(228);
+	datum->set_height(HT);
+	datum->set_width(WD);
 	datum->clear_data();
 	datum->clear_float_data();
 	datum->clear_label();

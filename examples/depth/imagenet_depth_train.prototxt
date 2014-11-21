@@ -8,8 +8,8 @@ layers {
     source: "/home/rgirdhar/work/01_DepthRegression/caffe/examples/depth/depth_train_leveldb"
     mean_file: "/home/rgirdhar/work/01_DepthRegression/caffe/examples/depth/mean.binaryproto"
     batch_size: 128
-    crop_size: 227
-    mirror: true
+    crop_size: 0
+    mirror: false
   }
 }
 layers {
