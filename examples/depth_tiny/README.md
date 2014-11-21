@@ -2,7 +2,7 @@
 #### To train
 
 ```bash
-$ GLOG_logtostderr=1 ./build/tools/caffe train --solver=examples/depth/imagenet_solver.prototxt --weights=examples/imagenet/bvlc_reference_caffenet.caffemodel
+$ GLOG_logtostderr=1 ./build/tools/caffe train --solver=examples/depth_tiny/imagenet_solver.prototxt --weights=examples/imagenet/bvlc_reference_caffenet.caffemodel
 ```
 
 #### To evaluate
