@@ -1,12 +1,9 @@
 // 输出分割的结果
 
-/*#include <cuda_runtime.h>
+/*#include <cuda_runtime.h> */
 
+#include <opencv2/opencv.hpp>
 #include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/highgui/highgui_c.h>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <opencv2/opencv.hpp>*/
 
 //#include <cv.h>
 //#include <highgui.h>
@@ -34,12 +31,16 @@
 #include <fstream>
 
 using namespace std;
-//using namespace cv;
+using namespace cv;
 using namespace caffe;
 using std::vector;
 #define LABEL_LEN 40
 #define LABEL_SIZE 13
 #define IMG_LENGTH 256
+
+#define GEN_VIS 1 // set as 0 to stop generating visualization
+#define OUTPUT_DIR string("examples/depth/output/")
+#define GT_DIR string("examples/depth/gt/")
 
 int CreateDir(const char *sPathName, int beg) {
 	char DirName[256];
@@ -62,6 +63,8 @@ int CreateDir(const char *sPathName, int beg) {
 
 	return 0;
 }
+
+void imagesc(Mat& input);
 
 char buf[101000];
 int main(int argc, char** argv)
@@ -119,7 +122,6 @@ int main(int argc, char** argv)
 	string resulttxt = rootfolder + "3dNormalResult.txt";
 	string gttxt = rootfolder + "gt.txt";
 	FILE * resultfile = fopen(resulttxt.c_str(), "w");
-	FILE * gtfile = fopen(gttxt.c_str(), "w");
 
 	for (int batch_id = 0; batch_id < batchCount; ++batch_id)
 	{
@@ -140,27 +142,52 @@ int main(int argc, char** argv)
 					int lbl;
 					fscanf(file,"%d",&lbl);
 				}*/
-			fprintf(resultfile, "%s ", fname);
+//			fprintf(resultfile, "%s ", fname);
 			int len = (74 * 55);
+            Mat output(55, 74, CV_32FC1);
 			for(int j = 0; j < len; j ++)
 			{
 				fprintf(resultfile, "%f ", (float)(bboxs->data_at(i, j, 0, 0)) );
+#ifdef GEN_VIS
+                output.at<float>(Point(j % 74, j / 74)) = ((float) bboxs->data_at(i, j, 0, 0));
+#endif
 			}
+#ifdef GEN_VIS
+            imagesc(output);
+            imwrite((OUTPUT_DIR + string(fname) + ".jpg").c_str(), output);
+#endif
 			fprintf(resultfile, "\n");
-            
+
+#ifdef GEN_VIS
+            Mat gt(55, 74, CV_32FC1);
 			for(int j = 0; j < len; j ++)
 			{
-				fprintf(gtfile, "%f ", (float)(labels->data_at(i, j, 0, 0)) );
+                gt.at<float>(Point(j % 74, j / 74)) = ((float) labels->data_at(i, j, 0, 0));
 			}
-			fprintf(gtfile, "\n");
+            imagesc(gt);
+            imwrite((GT_DIR + string(fname) + ".jpg").c_str(), gt);
+#endif
 
 		}
 	}
 
 	fclose(resultfile);
-	fclose(gtfile);
 	fclose(file);
 
 
 	return 0;
 }
+
+void imagesc(Mat& input) {
+    double min;
+    double max;
+    minMaxIdx(input, &min, &max);
+    Mat adjMap;
+    // Histogram Equalization
+    float scale = 255 / (max-min);
+    input.convertTo(adjMap, CV_8UC1, scale, -min*scale);
+
+
+    input = adjMap;
+}
+
