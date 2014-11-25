@@ -18,7 +18,7 @@ $ ./build/tools/convert_depth_imageset
 #### compute Image mean
 
 ```bash
-$ ./build/tools/extract_depth_features examples/depth/imagenet_depth_train.prototxt examples/depth/depth__iter_2000.caffemodel examples/depth/labels.txt examples/depth
+$ ./build/tools/compute_image_mean examples/depth/depth_train_leveldb/ examples/depth/mean.binaryproto leveldb
 ```
 
 #### Run training
