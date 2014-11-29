@@ -39,8 +39,9 @@ using std::vector;
 #define IMG_LENGTH 256
 
 #define GEN_VIS 1 // set as 0 to stop generating visualization
-#define OUTPUT_DIR string("examples/depth/output/")
-#define GT_DIR string("examples/depth/gt/")
+#define GEN_VIS_GT 0 // set as 0 to stop generating visualization for gt
+#define OUTPUT_DIR string("examples/bird2_log/output/")
+#define GT_DIR string("examples/bird2_log/gt/")
 
 int CreateDir(const char *sPathName, int beg) {
 	char DirName[256];
@@ -147,24 +148,24 @@ int main(int argc, char** argv)
             Mat output(55, 74, CV_32FC1);
 			for(int j = 0; j < len; j ++)
 			{
-				fprintf(resultfile, "%f ", (float)(bboxs->data_at(i, j, 0, 0)) );
-#ifdef GEN_VIS
-                output.at<float>(Point(j % 74, j / 74)) = ((float) bboxs->data_at(i, j, 0, 0));
+				fprintf(resultfile, "%f ", expf((float)(bboxs->data_at(i, j, 0, 0))) );
+#if GEN_VIS
+                output.at<float>(Point(j % 74, j / 74)) = (expf((float) bboxs->data_at(i, j, 0, 0)));
 #endif
 			}
-#ifdef GEN_VIS
+#if GEN_VIS
             imagesc(output);
             imwrite((OUTPUT_DIR + string(fname) + ".jpg").c_str(), output);
 #endif
 			fprintf(resultfile, "\n");
 
-#ifdef GEN_VIS
+#if GEN_VIS_GT
             Mat gt(55, 74, CV_32FC1);
 			for(int j = 0; j < len; j ++)
 			{
-                gt.at<float>(Point(j % 74, j / 74)) = ((float) labels->data_at(i, j, 0, 0));
+                gt.at<float>(Point(j % 74, j / 74)) = (expf((float) labels->data_at(i, j, 0, 0)));
 			}
-            imagesc(gt);
+            //imagesc(gt);
             imwrite((GT_DIR + string(fname) + ".jpg").c_str(), gt);
 #endif
 
