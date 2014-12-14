@@ -4,6 +4,7 @@ IMG_OUT_DIR = 'data/'; mkdir (IMG_OUT_DIR);
 nImgs = size(images, 4);
 for i = 1 : nImgs
     im = imresize(images(:, :, :, i), [228 304]);
+    imwrite(im, ['test_imgs/' num2str(i) '.jpg']);
     fname = fullfile(IMG_OUT_DIR, [num2str(i) '.txt']);
     for ch = 1 : 3
         I = reshape(im(:, :, ch)', 1, []);

@@ -39,9 +39,9 @@ using std::vector;
 #define IMG_LENGTH 256
 
 #define GEN_VIS 1 // set as 0 to stop generating visualization
-#define GEN_VIS_GT 0 // set as 0 to stop generating visualization for gt
-#define OUTPUT_DIR string("examples/bird2_log/output/")
-#define GT_DIR string("examples/bird2_log/gt/")
+#define GEN_VIS_GT 1 // set as 0 to stop generating visualization for gt
+#define OUTPUT_DIR string("examples/depth2/output/")
+#define GT_DIR string("examples/depth2/gt/")
 
 int CreateDir(const char *sPathName, int beg) {
 	char DirName[256];
@@ -143,7 +143,7 @@ int main(int argc, char** argv)
 					int lbl;
 					fscanf(file,"%d",&lbl);
 				}*/
-//			fprintf(resultfile, "%s ", fname);
+			fprintf(resultfile, "%s ", fname);
 			int len = (74 * 55);
             Mat output(55, 74, CV_32FC1);
 			for(int j = 0; j < len; j ++)

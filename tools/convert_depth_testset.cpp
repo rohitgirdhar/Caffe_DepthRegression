@@ -85,7 +85,7 @@ int main(int argc, char** argv) {
 	options.create_if_missing = true;
 	options.write_buffer_size = 268435456;
 	LOG(INFO)<< "Opening leveldb ";
-	leveldb::Status status = leveldb::DB::Open(options, "examples/bird2_log/test_leveldb", &db);
+	leveldb::Status status = leveldb::DB::Open(options, "examples/depth2/test_leveldb", &db);
 	CHECK(status.ok()) << "Failed to open leveldb ";
 
 	Datum datum;
@@ -97,10 +97,10 @@ int main(int argc, char** argv) {
 	bool data_size_initialized = false;
 
 
-	for (int anno_id = 4384; anno_id <= 4483; ++anno_id)
+	for (int anno_id = 1; anno_id <= 654; ++anno_id)
 	{
         char temp[100000];
-        sprintf(temp, "/home/shreyansh/bird_workspace/depth_regression/data2/test_data/image%05d.txt", anno_id);
+        sprintf(temp, "/home/shreyansh/bird_workspace/depth_regression/data_nyu2/test/image%05d.txt", anno_id);
         string fpath = string(temp);
 		if (!MyReadImageToDatum(fpath, &datum))
 		{
